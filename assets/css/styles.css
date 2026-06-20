@@ -662,7 +662,7 @@ h1, h2, h3, h4 {
 .page-hero .lead { max-width: 600px; margin: 0 auto; }
 
 /* Overall rating */
-.rating-panel { padding: clamp(30px, 4vw, 50px); display: grid; grid-template-columns: auto 1fr; gap: 50px; align-items: center; }
+.rating-panel { padding: clamp(30px, 4vw, 50px); display: grid; grid-template-columns: auto 1fr; gap: 50px; align-items: center; background: rgba(248,246,239,0.9); }
 .score-circle { position: relative; width: 200px; height: 200px; flex: none; }
 .score-circle svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .score-circle .track { fill: none; stroke: rgba(123,191,106,0.16); stroke-width: 12; }
