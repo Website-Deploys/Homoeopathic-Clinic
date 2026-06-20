@@ -19,23 +19,14 @@
   var sampleReviews = [
     { name: "Ananya", city: "Bengaluru", rating: 5, category: "Women's Health", date: "Recently", body: "A calm, unhurried first visit where I truly felt heard. The treatment focused on the root cause, not just quick relief.", sample: true },
     { name: "Rohit", city: "Bengaluru", rating: 5, category: "Allergies & Respiratory", date: "Recently", body: "Gentle remedies and genuinely personal care. My recurring sinus trouble has eased steadily over a few months.", sample: true },
-    { name: "Meera", city: "Bengaluru", rating: 5, category: "Skin Conditions", date: "Recently", body: "Thoughtful and reassuring. A holistic approach that considered my lifestyle, not only my symptoms.", sample: true, photo: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=600&q=70" },
+    { name: "Meera", city: "Bengaluru", rating: 5, category: "Skin Conditions", date: "Recently", body: "Thoughtful and reassuring. A holistic approach that considered my lifestyle, not only my symptoms.", sample: true },
     { name: "Kavya", city: "Bengaluru", rating: 5, category: "Children's Health", date: "Recently", body: "My daughter's immunity has improved noticeably. Dr. Vaishali is patient with children and explains everything kindly.", sample: true },
     { name: "Arjun", city: "Bengaluru", rating: 4, category: "Digestive Disorders", date: "Recently", body: "Steady, sensible guidance for my long-standing acidity. I appreciated that there was no rush and no over-prescribing.", sample: true },
-    { name: "Sahana", city: "Bengaluru", rating: 5, category: "Chronic / Lifestyle", date: "Recently", body: "The follow-ups made me feel supported through the whole journey. Sleep and stress have genuinely improved.", sample: true, photo: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=600&q=70" },
+    { name: "Sahana", city: "Bengaluru", rating: 5, category: "Chronic / Lifestyle", date: "Recently", body: "The follow-ups made me feel supported through the whole journey. Sleep and stress have genuinely improved.", sample: true },
   ];
 
-  /* ---------- Placeholder photo-story images (wellness / nature, not patients) ---------- */
-  var samplePhotos = [
-    "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=600&q=70",
-    "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=600&q=70",
-    "https://images.unsplash.com/photo-1466781783364-36c955e42a7f?auto=format&fit=crop&w=600&q=70",
-    "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=600&q=70",
-    "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=600&q=70",
-    "https://images.unsplash.com/photo-1499002238440-d264edd596ec?auto=format&fit=crop&w=600&q=70",
-    "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=600&q=70",
-    "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=70",
-  ];
+  /* ---------- Photo-story images: none until real patient photos are uploaded ---------- */
+  var samplePhotos = [];
 
   var allReviews = [];
   var activeFilter = "All";
@@ -349,6 +340,8 @@
   function addPhotoToGallery(url, caption) {
     var grid = document.getElementById("photoGrid");
     if (!grid) return;
+    var empty = grid.querySelector(".gallery-empty");
+    if (empty) empty.remove();
     var item = document.createElement("div");
     item.className = "ph-item reveal lb-src";
     item.dataset.full = url;
@@ -362,8 +355,13 @@
 
   function renderPhotoGallery() {
     samplePhotos.forEach(function (u) { addPhotoToGallery(u, "Wellness moment"); });
-    // include sample review photos
+    // include any review photos (sample reviews currently carry none)
     allReviews.forEach(function (r) { if (r.photo) addPhotoToGallery(r.photo, "Patient story"); });
+    // Empty state when there are no photos yet
+    var grid = document.getElementById("photoGrid");
+    if (grid && !grid.children.length) {
+      grid.innerHTML = '<p class="gallery-empty">Patient photos will appear here once shared and approved. Add yours using the form above.</p>';
+    }
   }
 
   function bindLightboxSources() {
