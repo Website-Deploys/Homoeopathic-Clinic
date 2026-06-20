@@ -12,14 +12,31 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
-# Sensible security + privacy headers for the HTML pages.
+# Security + privacy headers for every response.
 [[headers]]
   for = "/*"
   [headers.values]
+    # Force HTTPS for 2 years (and allow preload-list inclusion)
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    # Lock down where content can be loaded from — blocks injected/3rd-party scripts,
+    # clickjacking via frames, plugin/object embeds, and form hijacking.
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; img-src 'self' data: https://images.unsplash.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; connect-src 'self'; frame-src https://www.google.com https://maps.google.com; upgrade-insecure-requests"
+    # Don't let the browser guess content types
     X-Content-Type-Options = "nosniff"
+    # Prevent the site being framed by others (clickjacking)
     X-Frame-Options = "SAMEORIGIN"
+    # Modern browsers: rely on CSP, disable the legacy/buggy XSS auditor
+    X-XSS-Protection = "0"
+    # Limit referrer leakage
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    # Disable powerful APIs we don't use
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), accelerometer=()"
+    # Process/embedding isolation + stop other origins hotlinking our files
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Resource-Policy = "same-origin"
+    # Don't expose which stack/host powers the site
+    X-Powered-By = ""
+    X-DNS-Prefetch-Control = "off"
 
 # Pretty URL: allow /reviews to resolve to reviews.html
 [[redirects]]

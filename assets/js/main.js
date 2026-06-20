@@ -260,6 +260,28 @@
     });
   }
 
+  /* ---------- Light copy deterrents ----------
+     Note: a public website's code is always downloadable by browsers; these
+     only discourage casual copying and are not a security control. */
+  function initProtect() {
+    document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+    document.addEventListener("dragstart", function (e) { e.preventDefault(); });
+    document.addEventListener("keydown", function (e) {
+      var k = (e.key || "").toUpperCase();
+      var ctrl = e.ctrlKey || e.metaKey;
+      if (e.keyCode === 123) e.preventDefault();                         // F12
+      if (ctrl && e.shiftKey && (k === "I" || k === "J" || k === "C")) e.preventDefault(); // devtools
+      if (ctrl && (k === "U" || k === "S")) e.preventDefault();          // view-source / save
+    });
+    try {
+      console.log(
+        "%c© Harmony Homoeopathic Clinic",
+        "color:#5BA24C;font-family:serif;font-size:16px;font-weight:700;"
+      );
+      console.log("%cContent is protected. Please do not copy.", "color:#243424;font-size:12px;");
+    } catch (e) {}
+  }
+
   /* ---------- Year stamp ---------- */
   function initYear() {
     document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
@@ -275,6 +297,7 @@
     initReveal();
     initCounters();
     initGSAP();
+    initProtect();
     initYear();
   }
 

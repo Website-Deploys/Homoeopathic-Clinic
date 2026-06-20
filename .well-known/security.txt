@@ -1,0 +1,6 @@
+# Security contact for Harmony Homoeopathic Clinic
+# https://securitytxt.org/
+Contact: tel:+919880356675
+Contact: https://harmony-homoeopathic-clinic.netlify.app/#contact
+Preferred-Languages: en
+Expires: 2027-06-30T00:00:00.000Z
