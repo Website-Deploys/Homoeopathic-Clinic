@@ -206,14 +206,14 @@
       h = canvas.height = window.innerHeight;
     }
     function make() {
-      const count = Math.min(60, Math.floor((w * h) / 26000));
+      const count = Math.min(42, Math.floor((w * h) / 36000));
       particles = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
-        r: Math.random() * 2.2 + 0.6,
+        r: Math.random() * 2 + 0.6,
         vx: (Math.random() - 0.5) * 0.25,
         vy: (Math.random() - 0.5) * 0.25 - 0.06,
-        a: Math.random() * 0.5 + 0.2,
+        a: Math.random() * 0.32 + 0.1,
         pulse: Math.random() * Math.PI * 2,
         c: COLORS[Math.floor(Math.random() * COLORS.length)],
       }));
@@ -233,7 +233,7 @@
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fillStyle = p.c + glow.toFixed(3) + ")";
         ctx.shadowColor = p.c + "0.8)";
-        ctx.shadowBlur = 8;
+        ctx.shadowBlur = 4;
         ctx.fill();
       }
       ctx.shadowBlur = 0;

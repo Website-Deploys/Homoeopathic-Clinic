@@ -22,8 +22,8 @@
   --line: rgba(36, 52, 36, 0.10);
 
   /* Glass */
-  --glass-bg: rgba(255, 255, 255, 0.55);
-  --glass-bg-strong: rgba(255, 255, 255, 0.72);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-bg-strong: rgba(255, 255, 255, 0.86);
   --glass-border: rgba(255, 255, 255, 0.6);
   --glass-blur: 18px;
 
@@ -68,10 +68,11 @@ body {
   line-height: 1.65;
   font-size: 17px;
   font-weight: 400;
-  letter-spacing: 0.1px;
+  letter-spacing: normal;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   position: relative;
 }
 
