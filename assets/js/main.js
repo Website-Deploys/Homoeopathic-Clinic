@@ -159,20 +159,18 @@
       });
     }
 
-    // Gentle float for chips / leaves (desktop only — skip on touch/small for perf)
-    if (!lite) {
-      gsap.utils.toArray("[data-float]").forEach((el, i) => {
-        gsap.to(el, {
-          y: "+=14",
-          rotation: el.classList.contains("leaf") ? "+=8" : 0,
-          duration: 3 + (i % 3),
-          ease: "sine.inOut",
-          repeat: -1,
-          yoyo: true,
-          delay: i * 0.25,
-        });
+    // Gentle float for chips / leaves (lightweight — safe on mobile too)
+    gsap.utils.toArray("[data-float]").forEach((el, i) => {
+      gsap.to(el, {
+        y: "+=14",
+        rotation: el.classList.contains("leaf") ? "+=8" : 0,
+        duration: 3 + (i % 3),
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+        delay: i * 0.25,
       });
-    }
+    });
   }
 
   /* ---------- Background atmosphere: particles + leaves ---------- */
@@ -182,7 +180,7 @@
   function buildLeavesLayer() {
     const layer = document.getElementById("leaves");
     if (!layer) return;
-    const count = lite ? 3 : 9;
+    const count = lite ? 5 : 9;
     for (let i = 0; i < count; i++) {
       const leaf = document.createElement("div");
       leaf.className = "leaf";
@@ -202,7 +200,8 @@
 
   function initParticles() {
     const canvas = document.getElementById("particles");
-    if (!canvas || prefersReduced || lite) return;
+    if (!canvas || prefersReduced) return;
+    const mobile = lite; // lighter particle field on phones/tablets
     const ctx = canvas.getContext("2d");
     let w, h, particles, raf;
     const COLORS = ["rgba(123,191,106,", "rgba(201,169,110,", "rgba(167,215,161,"];
@@ -212,7 +211,7 @@
       h = canvas.height = window.innerHeight;
     }
     function make() {
-      const count = Math.min(42, Math.floor((w * h) / 36000));
+      const count = Math.min(mobile ? 16 : 42, Math.floor((w * h) / (mobile ? 60000 : 36000)));
       particles = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
@@ -239,7 +238,7 @@
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fillStyle = p.c + glow.toFixed(3) + ")";
         ctx.shadowColor = p.c + "0.8)";
-        ctx.shadowBlur = 4;
+        ctx.shadowBlur = mobile ? 0 : 4;
         ctx.fill();
       }
       ctx.shadowBlur = 0;

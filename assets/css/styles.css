@@ -859,6 +859,8 @@ h1, h2, h3, h4 {
    so we drop the blur and pause continuous animations on small screens.
    =================================================================== */
 @media (max-width: 1024px) {
+  /* Drop backdrop-blur — it re-blurs every scroll frame (the real jank source).
+     Cards are opaque cream now, so it looks identical but scrolls smoothly. */
   .glass, .card, .trust-card, .rating-panel, .upload-form, .nav,
   .btn-soft, .hero-chip, .filter-chip, .dropzone, .nav.open .nav-links {
     -webkit-backdrop-filter: none !important;
@@ -868,9 +870,7 @@ h1, h2, h3, h4 {
   .rating-panel, .upload-form, .glass { background: var(--cream); }
   .nav { background: rgba(248, 246, 239, 0.96); }
   .nav.open .nav-links { background: var(--cream); }
-  /* Stop continuously-animating decorative layers (saves GPU/battery) */
-  .blob { animation: none !important; filter: blur(42px); opacity: 0.32; }
-  .blob--2 { display: none; }
-  .why-orbit { animation: none !important; }
-  .blob, .leaf, .hero-photo, .hero-chip { will-change: auto; }
+  /* Keep the gentle floating motion (transform-based = GPU-cheap); just a
+     slightly lighter blur on the blobs for headroom. */
+  .blob { filter: blur(48px); }
 }
