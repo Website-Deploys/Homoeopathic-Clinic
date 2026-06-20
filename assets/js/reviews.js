@@ -151,7 +151,18 @@
 
     // Animate when visible
     var panel = document.getElementById("scoreCircle");
+    var animated = false;
+    function fillBars() {
+      if (!bars) return;
+      requestAnimationFrame(function () {
+        bars.querySelectorAll(".fill").forEach(function (f) {
+          f.style.width = (f.dataset.pct || 0) + "%";
+        });
+      });
+    }
     function animate() {
+      if (animated) return;
+      animated = true;
       var circumference = 534; // 2*pi*85
       if (prog) prog.style.strokeDashoffset = circumference - (avg / 5) * circumference;
       // number count
@@ -164,18 +175,20 @@
           else valEl.textContent = rounded.toFixed(1);
         })(performance.now());
       }
-      if (bars) bars.querySelectorAll(".fill").forEach(function (f) { f.style.width = f.dataset.pct + "%"; });
+      fillBars();
     }
     if ("IntersectionObserver" in window && panel) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
           if (e.isIntersecting) { animate(); io.disconnect(); }
         });
-      }, { threshold: 0.4 });
+      }, { threshold: 0.3 });
       io.observe(panel);
     } else {
       animate();
     }
+    // Safety net: never leave the bars empty even if the observer doesn't fire.
+    setTimeout(animate, 1600);
   }
 
   /* ---------- Star input ---------- */

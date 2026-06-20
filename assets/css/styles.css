@@ -674,7 +674,7 @@ h1, h2, h3, h4 {
 .rating-meta h2 { margin: 10px 0 8px; }
 .rating-bars { margin-top: 22px; display: grid; gap: 10px; max-width: 340px; }
 .rating-bar { display: grid; grid-template-columns: 44px 1fr 40px; gap: 12px; align-items: center; font-size: 0.85rem; color: var(--muted); }
-.rating-bar .track { height: 8px; border-radius: 8px; background: rgba(36,52,36,0.08); overflow: hidden; }
+.rating-bar .track { height: 10px; border-radius: 8px; background: rgba(36,52,36,0.08); overflow: hidden; }
 .rating-bar .fill { height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--green), var(--gold)); width: 0; transition: width 1.4s var(--ease); }
 
 /* Filters */
