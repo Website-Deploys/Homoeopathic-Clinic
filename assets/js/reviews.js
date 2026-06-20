@@ -187,7 +187,12 @@
     function paint(n) { stars.forEach(function (s, i) { s.classList.toggle("on", i < n); }); }
     stars.forEach(function (s) {
       s.addEventListener("mouseenter", function () { paint(parseInt(s.dataset.v)); });
-      s.addEventListener("click", function () { chosenRating = parseInt(s.dataset.v); paint(chosenRating); });
+      s.addEventListener("click", function () {
+        chosenRating = parseInt(s.dataset.v);
+        paint(chosenRating);
+        var hidden = document.getElementById("rvRating");
+        if (hidden) hidden.value = chosenRating;
+      });
     });
     wrap.addEventListener("mouseleave", function () { paint(chosenRating); });
   }
@@ -233,6 +238,20 @@
     dz.addEventListener("drop", function (e) { if (e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files); });
   }
 
+  /* ---------- Netlify Forms submission ---------- */
+  function submitToNetlify(data) {
+    try {
+      var body = Object.keys(data)
+        .map(function (k) { return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]); })
+        .join("&");
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body,
+      }).catch(function () {/* offline / local preview — ignore */});
+    } catch (e) {/* ignore */}
+  }
+
   /* ---------- Form submit ---------- */
   var photoStore = [];
   var baStore = [];
@@ -246,9 +265,10 @@
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var name = form.name.value.trim();
-      var city = form.city.value.trim();
-      var text = form.review.value.trim();
+      var name = document.getElementById("rvName").value.trim();
+      var city = document.getElementById("rvCity").value.trim();
+      var text = document.getElementById("rvText").value.trim();
+      var category = document.getElementById("rvCat").value || "";
       var consent = document.getElementById("rvConsent").checked;
 
       function fail(t) { msg.className = "form-msg err show"; msg.textContent = t; }
@@ -261,12 +281,24 @@
         name: name,
         city: city,
         rating: chosenRating,
-        category: form.category.value || "",
+        category: category,
         body: text,
         date: "Just now · pending review",
         sample: false,
         photo: photoStore.length ? photoStore[0].url : null,
       };
+
+      // Deliver the submission to Netlify Forms (appears in the Netlify
+      // dashboard — no email/backend needed). Fails silently offline.
+      submitToNetlify({
+        "form-name": "patient-review",
+        name: name,
+        city: city,
+        rating: String(chosenRating),
+        category: category,
+        review: text,
+        consent: "yes",
+      });
 
       // Persist text-only copy (avoid storing large images in localStorage)
       var stored = loadStored();
