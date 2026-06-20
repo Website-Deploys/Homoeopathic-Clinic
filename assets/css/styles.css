@@ -831,8 +831,11 @@ h1, h2, h3, h4 {
   .hero-cta-row { flex-direction: column; align-items: stretch; }
   .hero-cta-note { max-width: none; text-align: center; }
   .btn-cta { width: 100%; }
-  .hero-chip--rating { left: 0; } .hero-chip--years { right: 0; }
-  .services-grid, .video-grid, .trust-grid, .stats-grid { grid-template-columns: 1fr; }
+  /* Hide decorative floating chips/leaves on phones — they overlapped the CTA */
+  .hero-media { margin-top: 18px; }
+  .hero-chip, .hero-leaf { display: none; }
+  .hero-photo { aspect-ratio: 4 / 3; }
+  .reviews-grid, .services-grid, .video-grid, .trust-grid, .stats-grid { grid-template-columns: 1fr; }
   .rating-panel { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 30px; }
   .rating-bars { margin-left: auto; margin-right: auto; }
   .masonry, .photo-grid { columns: 1; }

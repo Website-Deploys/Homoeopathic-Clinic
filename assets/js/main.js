@@ -142,16 +142,18 @@
     const { gsap } = window;
     if (window.ScrollTrigger) gsap.registerPlugin(window.ScrollTrigger);
 
-    // Hero image parallax + chip float
-    gsap.utils.toArray("[data-parallax]").forEach((el) => {
-      const speed = parseFloat(el.dataset.parallax) || 0.15;
-      if (!window.ScrollTrigger) return;
-      gsap.to(el, {
-        yPercent: -speed * 100,
-        ease: "none",
-        scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true },
+    // Hero image parallax + chip float (desktop only — avoids mobile overlap)
+    if (window.innerWidth >= 900) {
+      gsap.utils.toArray("[data-parallax]").forEach((el) => {
+        const speed = parseFloat(el.dataset.parallax) || 0.15;
+        if (!window.ScrollTrigger) return;
+        gsap.to(el, {
+          yPercent: -speed * 100,
+          ease: "none",
+          scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true },
+        });
       });
-    });
+    }
 
     // Gentle float for chips / leaves
     gsap.utils.toArray("[data-float]").forEach((el, i) => {
