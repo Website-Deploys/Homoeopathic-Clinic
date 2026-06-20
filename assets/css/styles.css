@@ -851,3 +851,26 @@ h1, h2, h3, h4 {
 .mt-s { margin-top: 14px; } .mt-m { margin-top: 26px; } .mt-l { margin-top: 44px; }
 .hidden { display: none !important; }
 .flex-center { display: flex; align-items: center; justify-content: center; }
+
+/* ===================================================================
+   MOBILE / TOUCH PERFORMANCE
+   Backdrop-blur + animated blurred blobs + infinite spins are the main
+   causes of scroll jank on phones. Cards are already near-opaque cream,
+   so we drop the blur and pause continuous animations on small screens.
+   =================================================================== */
+@media (max-width: 1024px) {
+  .glass, .card, .trust-card, .rating-panel, .upload-form, .nav,
+  .btn-soft, .hero-chip, .filter-chip, .dropzone, .nav.open .nav-links {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  .card, .trust-card, .service-card, .review-card, .why-item,
+  .rating-panel, .upload-form, .glass { background: var(--cream); }
+  .nav { background: rgba(248, 246, 239, 0.96); }
+  .nav.open .nav-links { background: var(--cream); }
+  /* Stop continuously-animating decorative layers (saves GPU/battery) */
+  .blob { animation: none !important; filter: blur(42px); opacity: 0.32; }
+  .blob--2 { display: none; }
+  .why-orbit { animation: none !important; }
+  .blob, .leaf, .hero-photo, .hero-chip { will-change: auto; }
+}

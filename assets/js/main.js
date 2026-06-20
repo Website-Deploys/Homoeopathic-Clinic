@@ -9,6 +9,10 @@
 
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const hasGSAP = typeof window.gsap !== "undefined";
+  const isCoarse = !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+  const isSmall = window.innerWidth < 1024;
+  // Touch phones/tablets get a lightweight build (native scroll, no canvas/heavy float)
+  const lite = isCoarse || isSmall;
 
   /* ---------- Loader ---------- */
   function hideLoader() {
@@ -24,7 +28,7 @@
   /* ---------- Lenis smooth scroll ---------- */
   let lenis = null;
   function initLenis() {
-    if (prefersReduced || typeof window.Lenis === "undefined") return;
+    if (prefersReduced || lite || typeof window.Lenis === "undefined") return;
     lenis = new window.Lenis({
       duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -155,18 +159,20 @@
       });
     }
 
-    // Gentle float for chips / leaves
-    gsap.utils.toArray("[data-float]").forEach((el, i) => {
-      gsap.to(el, {
-        y: "+=14",
-        rotation: el.classList.contains("leaf") ? "+=8" : 0,
-        duration: 3 + (i % 3),
-        ease: "sine.inOut",
-        repeat: -1,
-        yoyo: true,
-        delay: i * 0.25,
+    // Gentle float for chips / leaves (desktop only — skip on touch/small for perf)
+    if (!lite) {
+      gsap.utils.toArray("[data-float]").forEach((el, i) => {
+        gsap.to(el, {
+          y: "+=14",
+          rotation: el.classList.contains("leaf") ? "+=8" : 0,
+          duration: 3 + (i % 3),
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+          delay: i * 0.25,
+        });
       });
-    });
+    }
   }
 
   /* ---------- Background atmosphere: particles + leaves ---------- */
@@ -176,7 +182,7 @@
   function buildLeavesLayer() {
     const layer = document.getElementById("leaves");
     if (!layer) return;
-    const count = window.innerWidth < 720 ? 5 : 9;
+    const count = lite ? 3 : 9;
     for (let i = 0; i < count; i++) {
       const leaf = document.createElement("div");
       leaf.className = "leaf";
@@ -196,7 +202,7 @@
 
   function initParticles() {
     const canvas = document.getElementById("particles");
-    if (!canvas || prefersReduced) return;
+    if (!canvas || prefersReduced || lite) return;
     const ctx = canvas.getContext("2d");
     let w, h, particles, raf;
     const COLORS = ["rgba(123,191,106,", "rgba(201,169,110,", "rgba(167,215,161,"];
