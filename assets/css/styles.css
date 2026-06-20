@@ -575,7 +575,7 @@ h1, h2, h3, h4 {
    SUCCESS STATS  (dark forest band)
    =================================================================== */
 .stats {
-  background: linear-gradient(160deg, var(--forest), #1a261a);
+  background: linear-gradient(160deg, #335032, #243a22);
   color: var(--cream); border-radius: clamp(28px, 4vw, 48px);
   margin: 0 24px; position: relative; overflow: hidden;
 }
@@ -622,7 +622,7 @@ h1, h2, h3, h4 {
    CONTACT
    =================================================================== */
 .contact-grid { grid-template-columns: 1fr 1fr; gap: 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); }
-.contact-info { padding: clamp(32px, 4vw, 54px); background: linear-gradient(160deg, var(--forest), #1c2a1c); color: var(--cream); }
+.contact-info { padding: clamp(32px, 4vw, 54px); background: linear-gradient(160deg, #335032, #243a22); color: var(--cream); }
 .contact-info .eyebrow { color: var(--green-light); }
 .contact-info h2 { color: #fff; margin: 14px 0 24px; }
 .contact-list { display: grid; gap: 22px; margin-top: 10px; }
