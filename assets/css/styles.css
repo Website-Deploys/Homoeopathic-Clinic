@@ -620,6 +620,8 @@ h1, h2, h3, h4 {
 .contact-row .val small { display: block; font-weight: 400; font-size: 0.85rem; color: rgba(248,246,239,0.65); margin-top: 2px; }
 .contact-map { min-height: 420px; background: var(--beige); position: relative; }
 .contact-map iframe { width: 100%; height: 100%; border: 0; display: block; position: absolute; inset: 0; }
+.contact-row .val a { color: inherit; transition: color 0.3s; border-bottom: 1px solid transparent; }
+.contact-row .val a:hover { color: var(--green-light); border-bottom-color: var(--green-light); }
 .editable-note { margin-top: 26px; font-size: 0.8rem; color: rgba(248,246,239,0.55); border-top: 1px solid rgba(255,255,255,0.12); padding-top: 18px; }
 
 /* ===================================================================
