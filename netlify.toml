@@ -1,0 +1,27 @@
+# Netlify configuration for Harmony Homoeopathic Clinic
+# Static site — no build step. Files are served from the repo root.
+
+[build]
+  publish = "."
+  command = ""
+
+# Long-cache the fingerprint-able static assets (fast repeat visits, better Lighthouse).
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Sensible security + privacy headers for the HTML pages.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Pretty URL: allow /reviews to resolve to reviews.html
+[[redirects]]
+  from = "/reviews"
+  to = "/reviews.html"
+  status = 200
